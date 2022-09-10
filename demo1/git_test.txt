@@ -1,0 +1,2 @@
+在本地新路径下$ git clone https://github.com/hitgub123/golang.git，把github官网仓库拷到本地
+
