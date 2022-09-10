@@ -2,36 +2,24 @@ package main
 
 import (
 	"fmt"
-	// "math/rand"
+	// "os"
+	"os/exec"
 	// "time"
-	// a2 "demo1/a2"
 )
 
-var p *int
-
 func main() {
-	a:=new(animal)
-	a.age=33
-	c:=new(cat)
-	c.ani=a
-	c.ani.age=1
-	c.name="kat"
-	fmt.Printf("%v", *c.ani)
-	x:=c.eat()
-	fmt.Printf("\n%v", x)
+	// pname:="D:\\program\\WinMerge\\WinMergeU.exe"
+	pname:="d: & cd d:/workspace/go/demo1 & go run a1.go"
+	fmt.Println(pname)
+	cmd:= exec.Command(pname)
+    err:=cmd.Run()
+	fmt.Println("error:", err)
+
+    // _, e, _ := os.Pipe()
+	// attr := &os.ProcAttr{Env: os.Environ(), Files: []*os.File{nil, e, nil}}
+	// p,err:=os.StartProcess(pname,[]string{pname},attr)
+	// if err!= nil {
+	// 	panic(err)
+	// }
+	// fmt.Printf("%v",p)
 }
-
-
-type animal struct {
-	age int8
-	length float32
- }
- type cat struct {
-	name string
-	ani *animal
- }
- func (c cat) eat() (x bool){
-	fmt.Printf("%v eat fish",c)
-	x=true
-	return
- }
