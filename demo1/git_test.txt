@@ -11,10 +11,13 @@ git push 可以把本地仓库的修改提交到远程仓库
 如果push前(add和commit之后)其他人已经push过，导致自己的版本不是最新产生文件冲突，可以先git pull拉去他人的修改，
 这样可以看到哪些文件哪些内容冲突，修改后重新add>>commit>>push
 
+修改了本地文件已经add，使用git restore --staged 该文件 可以取消add。
+修改了本地文件还没有add，使用git restore 该文件 可以取消修改。
+
 
 
 1啊
-2啊啊
+2啊
 3啊
-4
+4啊
 
