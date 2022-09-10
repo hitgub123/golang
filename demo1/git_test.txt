@@ -4,5 +4,13 @@ git status查看当前分支，和其他信息
 
 本地修改后，git add . 可以提交当前路径下所有修改到暂存区
 git commit -m "任意信息"可以提交暂存区的修改到本地仓库
+（get commit -am '任意信息'可以同时add和commit）
 git push 可以把本地仓库的修改提交到远程仓库
-111嘻嘻嘻
+
+如果push前(add和commit之后)其他人已经push过，导致自己的版本不是最新产生文件冲突，可以先git pull拉去他人的修改，
+这样可以看到哪些文件哪些内容冲突，修改后重新add>>commit>>push
+
+1
+2
+3
+4
