@@ -11,13 +11,15 @@ git push 可以把本地仓库的修改提交到远程仓库
 如果push前(add和commit之后)其他人已经push过，导致自己的版本不是最新产生文件冲突，可以先git pull拉去他人的修改，
 这样可以看到哪些文件哪些内容冲突，修改后重新add>>commit>>push
 
-修改了本地文件已经add，使用git restore --staged 该文件 可以取消add。
-修改了本地文件还没有add，使用git restore 该文件 可以取消修改。
+复原相关：
+	修改了本地文件且已经add，使用git restore --staged 该文件 可以取消add。
+	修改了本地文件且还没有add，使用git restore 该文件 可以取消修改。
 
-
-
-1啊
-2啊
-3啊
-4啊
+	如果已经commit，restore就无效了。可以使用git reset或者revert
+	
+	reset可以切换到本地commit过的任意一个的版本，会留下log（git reflog可看到）
+		用法是git reset 版本号（版本号通过git reflog查看），一般有--hard、--mixed、--soft3种选项
+		--hard：同时复原本地仓库，暂存区，本地文件
+		--mixed（或者不写）：同时复原本地仓库，暂存区
+		--soft：复原本地仓库
 
