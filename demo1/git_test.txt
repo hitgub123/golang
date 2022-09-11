@@ -33,7 +33,9 @@ git push 可以把本地仓库的修改提交到远程仓库
 	git branch -d 分支名 ：删除分支，不存在时不删除，提示不存在
 	git branch -m 分支名 新分支名：重命名
 	git checkout 分支名 ：切换分支
-	git merge 分支名	：合并分支
+	git merge 被merge分支名	：合并分支
+		git checkout master && git merge b1 ：把b1分支的修改合并到master分支。
+		如果b1里被修改的文件，在master没被修改过，不会冲突，否则会产生冲突
 	
 	
 	
