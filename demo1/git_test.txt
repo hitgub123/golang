@@ -43,9 +43,22 @@ git push 可以把本地仓库的修改提交到远程仓库
 		如果远程q1分支未创建，会自动创建。本地分支名即原分支名。在远程切换到q1分支可看到本次修改。
 	
 	git pull origin master(任意存在的分支)：只pull master分支(任意存在的分支)的更新
-	git pull 				：pull所有分支的更新
+	git pull 	：pull所有分支的更新()
+		在子分支使用git pull时可能提示【There is no tracking information for the current branch】，
+		而不更新当前子分支。可以git pull origin 当前子分支名 进行更新 
 	
 	在本地任意分支里，git pull origin b1把远程b1分支pull到本地后，
 	能checkout到b1进行修改，然后add/commit/push到远程b1分支
 	
+	git rebase -i  [startpoint]  [endpoint]：合并多次提交为一条
+		如果指定了endpoint且endpoint不是当前分支HEAD所指向的commit(最后的coomit？)，会产生一个新的临时分支。
+		之前分支endpoint之后的commit不会反映到此分支，可按照git提示保存此临时分支。
+		如果不指定[endpoint]，则该区间的终点默认是当前分支HEAD所指向的commit.
+		不包括startpoint，包括endpoint。
+			比如从新到旧有提交4次，版本号分别时c1,c2,c3,c4，
+			git rebase -i c1（相当于git rebase -i c1 c4）， 进入交互界面，输入i后进入编辑模式，
+			将最上方的除第一行以外的pick改成s，	按exs退出编辑模式后输入:wq按回车进行保存和退出。
+			之后进入commit信息输入页面，同上进行编辑保存退出后rebase完毕。
+			git log 可以看到c2,c3,c4合并成了一个commit，减少了log（不减少reflog）
+	rebase可以将某一段commit粘贴到另一个分支上，未尝试
 
