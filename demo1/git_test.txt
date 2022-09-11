@@ -36,6 +36,11 @@ git push 可以把本地仓库的修改提交到远程仓库
 	git merge 被merge分支名	：合并分支
 		git checkout master && git merge b1 ：把b1分支的修改合并到master分支。
 		如果b1里被修改的文件，在master没被修改过，不会冲突，否则会产生冲突
+		
+	
+	git push origin 分支名	：push到远程子分支
+		在master分支或者q1子分支里（其他分支未测试），add/commit后q1的修改后，git push origin q1即可push到远程q1分支。
+		如果远程q1分支未创建，会自动创建。本地分支名即原分支名。在远程切换到q1分支可看到本次修改。
 	
 	
 	
