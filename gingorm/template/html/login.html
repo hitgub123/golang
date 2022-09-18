@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录页面</title>
+  </head>
+  <body>
+    <div id="app">
+      <form>
+        用户名<input v-model="user.name" name="name" /><br />
+        密码<input v-model="user.password" name="password" /><br />
+        再次输入密码<input v-model="user.password2" name="password2" /><br />
+      </form>
+      <button type="button" @click="submit">submit</button><br />
+      <button type="button" @click="logout">logout</button><br />
+    </div>
+  </body>
+</html>
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/axios.js"></script>
+<script>
+  const app = new Vue({
+    el: "#app",
+    data() {
+      return {
+        user: {},
+      };
+    },
+    methods: {
+      submit() {
+        console.log(this.user);
+        _this = this;
+        axios
+          .post("/login", {
+            name: _this.user.name,
+            password: _this.user.password,
+          })
+          .then(function (res) {
+            console.log(res.data.Data);
+            if(res.data.Data.id>0){
+              location.href='/u/users'
+            }
+          });
+      },
+      logout() {
+        axios
+          .get("/logout")
+          .then(function (res) {
+            console.log(res.data.Data);
+          });
+      },
+    },
+  });
+</script>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <form>
+        <input v-model="user.id" type="hidden" /><br />
+        用户名<input v-model="user.name" /><br />
+        密码<input v-model="user.password" /><br />
+        年龄<input v-model="user.age" /><br />
+      </form>
+      <button type="buttuon" @click="submit">submit</button> <br />
+    </div>
+  </body>
+</html>
+
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/axios.js"></script>
+<script>
+  const app = new Vue({
+    el: "#app",
+    data() {
+      return {
+        user: {},
+      };
+    },
+    methods: {
+      submit() {
+        //this.user.id = this.getQy("id")
+        //alert(JSON.stringify(this.user));
+
+        data = {
+          //如果struct里是int字段，必须转整数，否则取不到。。。。
+          id: parseInt(this.user.id),
+          name: this.user.name,
+          age: parseInt(this.user.age),
+          password: this.user.password,
+        };
+
+        let url = "/u/update"
+        if (this.user.id == undefined || this.user.id == "0") {
+          console.log(1)
+          url = "/u/insert"
+        }
+        console.log(this.user.id, url);
+        axios
+          //.post("/u/update",_this.user)
+          .post(url, data)
+          .then(function (res) {
+            console.log("res.data.Data", res.data["Code"]);
+            if (res.data.Code == 0) {
+              location.href = "/u/users";
+            }
+          });
+      },
+      getQy(key) {
+        let geturl = window.location.href;
+        let getquerys = geturl.split("?")[1]; //qycode=1001&qyname=%E4%BC%81%E4%B8%9A%E5%BF%99   截取到参数部分
+        let getqy = new URLSearchParams("?" + getquerys); //将参数放在URLSearchParams函数中
+        return getqy.get(key);
+      },
+      oneByid() {
+        let id = this.getQy("id");
+        if (id != "0") {
+          _this = this;
+          axios.get("/u/oneByid?id=" + id).then(function (res) {
+            console.log(res.data.Data);
+            _this.user = res.data.Data;
+          });
+        }
+      },
+    },
+    created() {
+      this.oneByid();
+    },
+  });
+</script>

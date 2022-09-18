@@ -1,0 +1,7 @@
+使用"github.com/gin-contrib/sessions"和"github.com/gin-contrib/sessions/cookie"，
+Set，Delete等方法修改session后必须session.Save()才生效
+
+结构体字段是int时，
+
+
+
