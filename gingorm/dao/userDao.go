@@ -26,7 +26,7 @@ func OneUser2(username string, password string) *obj.Result {
 	db := GetDB()
 	var user *obj.User
 	err := db.Where("name = ? and password=?", username, password).First(&user).Error
-	log.Println("OneUser2 dao>>",user)
+	log.Println("OneUser2 dao>>", user)
 	if err == nil {
 		return &obj.Result{Code: 0, Error: nil, Data: &user}
 	} else {
@@ -79,10 +79,32 @@ func UpdateUser(o obj.User) *obj.Result {
 func InsertUser(o obj.User) *obj.Result {
 	o.Id = 0
 	err := GetDB().Create(&o).Error
-	log.Println("InsertUser>>", err,o)
+	log.Println("InsertUser>>", err, o)
 	if err == nil {
 		return &obj.Result{Code: 0, Error: nil, Data: nil}
 	} else {
 		return &obj.Result{Code: 1, Error: err, Data: nil}
 	}
+}
+
+func TestTX() {
+	// 必须加begin，去掉begin后事务无法提交
+	// tx := GetDB()
+	tx := GetDB().Begin()
+	// Transaction関数が存在し、その引数にはトランザクションの情報とCreate処理を盛り込んだ関数を渡す
+	defer func() {
+		if err := recover(); err != nil {
+			tx.Rollback()
+		} else {
+			tx.Commit()
+		}
+	}()
+
+	//用GetDB()会commit
+	// GetDB().Create(&obj.User{Name: "Giraffe"})
+	tx.Create(&obj.User{Name: "Giraffe"})
+	zero := 0
+	log.Println("InsertUser>>", 1/zero)
+	tx.Create(&obj.User{Name: "Lion"})
+
 }

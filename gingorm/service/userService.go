@@ -30,3 +30,7 @@ func UpdateUser(o obj.User) *obj.Result{
 func InsertUser(o obj.User) *obj.Result{
 	return dao.InsertUser(o)
 }
+
+func TestTX(){
+	dao.TestTX()
+}

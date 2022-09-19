@@ -2,9 +2,11 @@ package dao
 
 import (
 	"fmt"
+	"log"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
+	"gorm.io/gorm/logger"
 	"slq.me/obj"
 )
 
@@ -14,13 +16,16 @@ var dsn = "host=localhost user=postgres password=kimoji dbname=study port=5432 s
 func GetDB() *gorm.DB {
 	var err error
 	if db == nil {
-		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+			Logger:logger.Default.LogMode(logger.Info),		//打印sql文
+		})
 		if err != nil {
 			panic(err)
 		}
 	}
 	return db
 }
+
 
 func Test1() {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

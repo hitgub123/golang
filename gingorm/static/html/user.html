@@ -13,6 +13,8 @@
         用户名<input v-model="user.name" /><br />
         密码<input v-model="user.password" /><br />
         年龄<input v-model="user.age" /><br />
+        文件1<input type='file' name='file11' ref='file1'/><br />
+        文件2<input type='file' name='file22' ref='file2'/><br />
       </form>
       <button type="buttuon" @click="submit">submit</button> <br />
     </div>
@@ -31,32 +33,53 @@
     },
     methods: {
       submit() {
-        //this.user.id = this.getQy("id")
-        //alert(JSON.stringify(this.user));
-
-        data = {
-          //如果struct里是int字段，必须转整数，否则取不到。。。。
-          id: parseInt(this.user.id),
-          name: this.user.name,
-          age: parseInt(this.user.age),
-          password: this.user.password,
-        };
-
-        let url = "/u/update"
+        // 判断是update还是insert
         if (this.user.id == undefined || this.user.id == "0") {
-          console.log(1)
-          url = "/u/insert"
-        }
-        console.log(this.user.id, url);
-        axios
-          //.post("/u/update",_this.user)
-          .post(url, data)
+          //console.log('insert')
+          let params = new FormData();
+          console.log('this.$refs',this.$refs.file1)
+          let fileSelectDom1 =this.$refs.file1
+          let fileSelectDom2 =this.$refs.file2
+         
+          const config = {
+            headers: { "Content-Type": "multipart/form-data"}
+            //headers: { "Content-Type": "multipart/form-data","name":this.user.name }
+          };
+          params.append('file666', fileSelectDom1.files[0])        
+          params.append('file666', fileSelectDom2.files[0])
+
+          params.append('id', parseInt(this.user.id))
+          params.append('name', this.user.name)
+          params.append('age', parseInt(this.user.age))
+          params.append('password', this.user.password)
+          console.log("params",params,params.getAll('file666'))
+
+          // 如果上传文件要用.post(url, params,config)
+          axios.post("/u/insert", params,config)
           .then(function (res) {
             console.log("res.data.Data", res.data["Code"]);
             if (res.data.Code == 0) {
-              location.href = "/u/users";
+              //location.href = "/u/users"
             }
           });
+        }else{
+          //console.log('update')
+          const data = {
+            //如果struct里是int字段，必须转整数，否则取不到。。。。
+            id: parseInt(this.user.id),
+            name: this.user.name,
+            age: parseInt(this.user.age),
+            password: this.user.password,
+          }
+          // 如果不上传文件，用.post(url, data)即可
+          axios.post("/u/update", data)
+          .then(function (res) {
+            console.log("res.data.Data", res.data["Code"]);
+            if (res.data.Code == 0) {
+              location.href = "/u/users"
+            }
+          });
+        }
       },
       getQy(key) {
         let geturl = window.location.href;

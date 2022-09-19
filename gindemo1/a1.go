@@ -31,7 +31,7 @@ func midware1(c *gin.Context) {
 	// c.Abort()
 	// c.JSON(http.StatusOK,gin.H{"return at":"m1"})
 	// return
-	// c.Redirect(http.StatusPermanentRedirect,"/b2")
+	// c.Redirect(http.StatusFound,"/b2")
 	log.Println("<<m1 end",time.Since(start))
 }
 
@@ -131,11 +131,11 @@ func mainGin() {
 	})
 	//重定向
 	r.GET("/b4", func(c *gin.Context) {
-		c.Redirect(http.StatusPermanentRedirect, "https://www.google.com")
+		c.Redirect(http.StatusFound, "https://www.google.com")
 	})
 	//重定向
 	r.GET("/b3", func(c *gin.Context) {
-		c.Redirect(http.StatusTemporaryRedirect, "/b2")
+		c.Redirect(http.StatusFound, "/b2")
 	})
 	r.GET("/b2", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "upload.html", nil)
@@ -154,6 +154,8 @@ func mainGin() {
 			f   *multipart.Form
 			err error
 		)
+		
+		//这里如果ShouldBind产生error，必须手动处理。否则会继续无视校验规则绑定成功
 		if err = c.ShouldBind(&u); err != nil {
 			goto End
 		} else {
@@ -173,7 +175,7 @@ func mainGin() {
 				f := file_[0]
 				fmt.Printf("\n key:%s:%s", key, f.Filename)
 				//path.Ext获取文件后缀名
-				dest := fmt.Sprintf("./upload/%d-%s.%s", time.Now().Unix(), key, path.Ext(f.Filename))
+				dest := fmt.Sprintf("./upload/%d-%s%s", time.Now().Unix(), key, path.Ext(f.Filename))
 				fmt.Println(dest)
 				if err = c.SaveUploadedFile(f, dest); err != nil {
 					goto End

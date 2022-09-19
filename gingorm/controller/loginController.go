@@ -69,7 +69,9 @@ func LoginMidware(c *gin.Context) {
 		// session.Save()
 		// 删除整个session
 		// session.Clear()
-		c.Redirect(http.StatusPermanentRedirect, "/login")
+		
+		//StatusMovedPermanently,StatusFound
+		c.Redirect(http.StatusMovedPermanently , "/login")
 		c.Abort()
 	}
 
