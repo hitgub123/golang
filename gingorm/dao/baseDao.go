@@ -11,7 +11,7 @@ import (
 )
 
 var db *gorm.DB
-var dsn = "host=localhost user=postgres password=yourpassword dbname=study port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+var dsn = "host=localhost user=postgres password=kimoji dbname=study port=5432 sslmode=disable TimeZone=Asia/Shanghai"
 
 func GetDB() *gorm.DB {
 	var err error
